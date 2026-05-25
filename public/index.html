@@ -21,21 +21,16 @@
 </head>
 <body>
 
-  <!-- Retro Scanline Overlay -->
-  <div class="scanlines"></div>
-
   <div class="terminal-container">
     
     <!-- HEADER BAR -->
     <header class="terminal-header">
       <div class="header-left">
-        <span class="prompt-symbol">&gt;_</span>
         <h1 class="app-title">CLI_TRAINS.SH v1.0.4</h1>
-        <span class="live-tag blinking">[ LIVE ]</span>
       </div>
       <div class="header-right">
         <span id="refresh-counter" class="refresh-countdown">REFRESH: 45s</span>
-        <span id="terminal-clock" class="clock-display">[ 00:00:00 ]</span>
+        <span id="terminal-clock" class="clock-display">00:00:00</span>
       </div>
     </header>
 
@@ -90,7 +85,7 @@
       <!-- COLLAPSIBLE ROW: SLD ➜ MCV -->
       <section class="collapsible-section" id="board-sld-mcv">
         <div class="collapsible-header" id="toggle-mcv">
-          <span class="collapse-icon">[+]</span>
+          <span class="collapse-icon">+</span>
           <span class="collapsible-title">EXPAND SERVICE BOARD: SLD ➜ MCV (SALFORD CRESCENT ➜ MANCHESTER VICTORIA)</span>
         </div>
         <div class="collapsible-content collapsed" id="content-mcv">
@@ -139,7 +134,7 @@
             <div id="custom-results-container" class="custom-results-board hidden">
               <div class="custom-results-header">
                 <span class="results-route" id="custom-route-title">FROM ➜ TO</span>
-                <span class="results-crs" id="custom-crs-details">[ MAN ➜ SLD ]</span>
+                <span class="results-crs" id="custom-crs-details">MAN ➜ SLD</span>
               </div>
               <div class="table-header">
                 <span class="col-time">DEP</span>
@@ -163,7 +158,7 @@
 
     <!-- FOOTER LIVE ALERTS TICKER -->
     <footer class="terminal-footer">
-      <div class="ticker-label">[ NETWORK_ALERTS ]</div>
+      <div class="ticker-label">NETWORK ALERTS</div>
       <div class="ticker-wrap" id="alerts-ticker-wrap">
         <div class="ticker" id="alerts-ticker-content">
           LOADING REALTIME NATIONAL RAIL SYSTEM ALERTS FOR MANCHESTER METRO...

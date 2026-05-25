@@ -1,19 +1,19 @@
-/* CLI Trains Style Sheet - Terminal Aesthetic */
+/* CLI Trains Style Sheet - Minimalist Monochrome Aesthetic */
 @import url('https://cdn.jsdelivr.net/npm/@fontsource/departure-mono@5.0.1/index.css');
 
 :root {
   --bg: #000000;
-  --bg-card: #050505;
+  --bg-card: #000000;
   --border-color: #222222;
-  --green: #00ff66;
-  --green-dim: rgba(0, 255, 102, 0.15);
-  --green-text-dim: #00b347;
-  --yellow: #ffb300;
-  --yellow-dim: rgba(255, 179, 0, 0.15);
-  --red: #ff3333;
-  --red-dim: rgba(255, 51, 51, 0.15);
-  --text: #00ff66;
-  --text-dim: #00993d;
+  --green: #ffffff; /* Main text/action elements are now clean white */
+  --green-dim: rgba(255, 255, 255, 0.08);
+  --green-text-dim: #888888;
+  --yellow: #ffb300; /* Amber for late/warning accents only */
+  --yellow-dim: rgba(255, 179, 0, 0.08);
+  --red: #ff3333; /* Red for cancelled status only */
+  --red-dim: rgba(255, 51, 51, 0.08);
+  --text: #ffffff; /* White base text */
+  --text-dim: #777777; /* Muted grey for subheaders and captions */
   --terminal-font: 'Departure Mono', Consolas, Monaco, 'Courier New', Courier, monospace;
 }
 
@@ -32,33 +32,7 @@ body {
   font-size: 14px;
   line-height: 1.5;
   letter-spacing: 0.05em;
-  padding-bottom: 40px; /* Space for alerts footer */
-}
-
-/* CRT Scanlines Screen Overlay */
-.scanlines {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    rgba(18, 16, 16, 0) 50%, 
-    rgba(0, 0, 0, 0.18) 50%
-  );
-  background-size: 100% 4px;
-  z-index: 9999;
-  pointer-events: none;
-}
-
-.scanlines::after {
-  content: " ";
-  display: block;
-  position: absolute;
-  top: 0; left: 0; bottom: 0; right: 0;
-  background: radial-gradient(circle, rgba(16, 16, 16, 0) 0%, rgba(0, 0, 0, 0.4) 100%);
-  z-index: 10000;
-  pointer-events: none;
+  padding-bottom: 50px; /* Space for alerts footer */
 }
 
 /* App Container Layout */
@@ -66,7 +40,9 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  padding: 10px;
+  padding: 15px;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 /* HEADER BAR styling */
@@ -74,9 +50,9 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 2px double var(--green);
-  padding-bottom: 8px;
-  margin-bottom: 15px;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 12px;
+  margin-bottom: 25px;
   flex-wrap: wrap;
   gap: 10px;
 }
@@ -87,33 +63,20 @@ body {
   gap: 12px;
 }
 
-.prompt-symbol {
-  font-size: 1.5rem;
-  font-weight: bold;
-}
-
 .app-title {
-  font-size: 1.2rem;
+  font-size: 1.15rem;
   font-weight: normal;
   text-transform: uppercase;
 }
 
-.live-tag {
-  background-color: var(--green-dim);
-  border: 1px solid var(--green);
-  font-size: 0.8rem;
-  padding: 1px 6px;
-  border-radius: 2px;
-  font-weight: bold;
-}
-
 .refresh-countdown {
-  color: var(--yellow);
-  font-size: 0.9rem;
+  color: var(--text-dim);
+  font-size: 0.85rem;
 }
 
 .clock-display {
-  font-size: 1.1rem;
+  font-size: 1.05rem;
+  color: var(--text);
 }
 
 /* Blinking Animation */
@@ -130,56 +93,56 @@ body {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 25px;
 }
 
-/* CARD BOARDS GRID */
+/* CARD BOARDS GRID (Subtle borderless tables) */
 .board-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 15px;
+  gap: 25px;
 }
 
 .board-card {
   background-color: var(--bg-card);
-  border: 1px solid var(--green);
+  border: none; /* Removed thick green borders */
   display: flex;
   flex-direction: column;
 }
 
 .card-header {
-  border-bottom: 1px dashed var(--green);
-  padding: 8px 12px;
-  background-color: rgba(0, 255, 102, 0.03);
+  border-bottom: 1px solid var(--border-color); /* Clean solid border */
+  padding: 8px 0;
+  background-color: transparent;
 }
 
 .card-title {
   display: block;
-  font-size: 1rem;
+  font-size: 0.95rem;
   font-weight: bold;
   text-transform: uppercase;
 }
 
 .card-subtitle {
   display: block;
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   color: var(--text-dim);
   text-transform: uppercase;
-  margin-top: 2px;
+  margin-top: 3px;
 }
 
 .card-body {
-  padding: 10px 12px;
+  padding: 12px 0;
   flex: 1;
 }
 
 /* TABLE DEPARTURE DATA ROW ALIGNMENTS */
 .table-header {
   display: flex;
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   border-bottom: 1px solid var(--border-color);
-  padding-bottom: 6px;
-  margin-bottom: 8px;
+  padding-bottom: 8px;
+  margin-bottom: 10px;
   color: var(--text-dim);
   font-weight: bold;
 }
@@ -187,14 +150,14 @@ body {
 .board-rows {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
 }
 
 .departure-row {
   display: flex;
   align-items: center;
-  padding: 4px 0;
-  border-bottom: 1px solid rgba(0, 255, 102, 0.05);
+  padding: 6px 0;
+  border-bottom: 1px solid #111111;
 }
 
 .departure-row:last-child {
@@ -223,65 +186,66 @@ body {
   font-weight: bold;
 }
 
-/* Row states colors */
+/* Row states colors - Used for functional status ONLY */
 .status-ontime {
-  color: var(--green);
+  color: var(--text); /* Nominal is clean white */
 }
 .status-late {
-  color: var(--yellow);
+  color: var(--yellow); /* Warning is amber */
 }
 .status-cancelled {
-  color: var(--red);
+  color: var(--red); /* Cancelled is red */
   text-decoration: line-through;
 }
 .status-departed {
-  color: #888888;
+  color: #444444; /* Departed is dark grey */
 }
 
 .row-cancelled {
-  opacity: 0.75;
+  opacity: 0.65;
 }
 
 .loading-row {
   text-align: center;
-  padding: 15px 0;
-  color: var(--yellow);
+  padding: 20px 0;
+  color: var(--text-dim);
   font-style: italic;
 }
 
 /* COLLAPSIBLE SECTION */
 .collapsible-section {
-  border: 1px solid var(--green);
-  background-color: var(--bg-card);
+  border: none;
+  background-color: transparent;
 }
 
 .collapsible-header {
-  padding: 10px 12px;
+  padding: 12px 0;
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 10px;
-  background-color: rgba(0, 255, 102, 0.04);
+  gap: 12px;
+  background-color: transparent;
+  border-bottom: 1px solid var(--border-color);
   user-select: none;
 }
 
 .collapsible-header:hover {
-  background-color: rgba(0, 255, 102, 0.08);
+  opacity: 0.8;
 }
 
 .collapse-icon {
   font-weight: bold;
-  color: var(--yellow);
+  color: var(--text-dim);
 }
 
 .collapsible-title {
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   font-weight: bold;
 }
 
 .collapsible-content {
-  padding: 10px 12px;
-  border-top: 1px dashed var(--green);
+  padding: 12px 0;
+  border-top: none;
   transition: max-height 0.3s ease-out, padding 0.3s ease-out;
   overflow: hidden;
 }
@@ -293,92 +257,95 @@ body {
 /* ROW 2 ACTIONS GRID */
 .action-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 15px;
+  grid-template-columns: 1fr;
+  gap: 25px;
+  margin-top: 15px;
 }
 
 .action-card {
-  border: 1px dashed var(--green);
+  border: none;
 }
 
 /* FORMS AND INPUTS */
 .terminal-form {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 15px;
+  max-width: 600px;
 }
 
 .input-group {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
 }
 
 .input-group label {
-  width: 100px;
-  font-size: 0.85rem;
+  width: 110px;
+  font-size: 0.82rem;
   color: var(--text-dim);
 }
 
 .input-group input {
   flex: 1;
   background-color: #000;
-  border: 1px solid var(--text-dim);
-  color: var(--green);
+  border: 1px solid var(--border-color);
+  color: var(--text);
   font-family: var(--terminal-font);
-  padding: 6px 10px;
+  padding: 8px 12px;
   outline: none;
   font-size: 0.9rem;
 }
 
 .input-group input:focus {
-  border-color: var(--green);
-  box-shadow: 0 0 5px var(--green-dim);
+  border-color: #666666;
 }
 
-/* Datalist Styling (for browsers that support styling it, though standard controls apply) */
+/* Datalist Webkit Customizer */
 input::-webkit-calendar-picker-indicator {
-  filter: invert(1) sepia(100%) saturate(1000%) hue-rotate(80deg) brightness(1.2);
+  filter: invert(0.6);
   cursor: pointer;
 }
 
-/* BUTTONS */
+/* BUTTONS (Sleek minimalist invert on hover) */
 .button-group {
   display: flex;
-  gap: 10px;
+  gap: 12px;
   margin-top: 5px;
 }
 
 .cli-btn {
   flex: 1;
   background-color: transparent;
-  border: 1px solid var(--green);
-  color: var(--green);
+  border: 1px solid var(--text);
+  color: var(--text);
   font-family: var(--terminal-font);
-  padding: 8px 12px;
+  padding: 10px 15px;
   cursor: pointer;
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   text-align: center;
-  transition: all 0.2s ease;
+  transition: background-color 0.15s ease, color 0.15s ease;
 }
 
 .cli-btn:hover {
-  background-color: var(--green-dim);
-  box-shadow: 0 0 8px var(--green-dim);
+  background-color: var(--text);
+  color: var(--bg); /* Inverted monochrome style on hover */
 }
 
 .cli-btn:active {
-  background-color: rgba(0, 255, 102, 0.3);
+  background-color: #e5e5e5;
+  color: var(--bg);
 }
 
 .danger-btn {
-  border-color: var(--red);
-  color: var(--red);
+  border-color: #555555;
+  color: var(--text-dim);
 }
 
 .danger-btn:hover {
-  background-color: var(--red-dim);
-  box-shadow: 0 0 8px var(--red-dim);
+  background-color: #ff3333;
+  color: #000000;
+  border-color: #ff3333;
 }
 
 .font-departure {
@@ -387,16 +354,16 @@ input::-webkit-calendar-picker-indicator {
 
 /* CUSTOM QUERY RESULTS BOARD */
 .custom-results-board {
-  margin-top: 15px;
-  border-top: 1px dashed var(--green);
-  padding-top: 15px;
+  margin-top: 25px;
+  border-top: 1px solid var(--border-color);
+  padding-top: 20px;
 }
 
 .custom-results-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 12px;
+  margin-bottom: 15px;
   font-size: 0.9rem;
 }
 
@@ -405,14 +372,12 @@ input::-webkit-calendar-picker-indicator {
 }
 
 .results-crs {
-  color: var(--yellow);
+  color: var(--text-dim);
 }
 
 .hidden {
   display: none !important;
 }
-
-
 
 /* FOOTER LIVE ALERTS TICKER */
 .terminal-footer {
@@ -420,21 +385,21 @@ input::-webkit-calendar-picker-indicator {
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 32px;
+  height: 36px;
   background-color: #000;
-  border-top: 2px solid var(--green);
+  border-top: 1px solid var(--border-color); /* Thin solid divider */
   display: flex;
   align-items: center;
   z-index: 999;
-  font-size: 0.85rem;
+  font-size: 0.82rem;
 }
 
 .ticker-label {
-  background-color: var(--yellow-dim);
-  color: var(--yellow);
-  border-right: 1px solid var(--yellow);
+  background-color: #000000;
+  color: var(--yellow); /* Amber warning accent for ticker title */
+  border-right: 1px solid var(--border-color);
   font-weight: bold;
-  padding: 0 10px;
+  padding: 0 15px;
   height: 100%;
   display: flex;
   align-items: center;
@@ -456,7 +421,7 @@ input::-webkit-calendar-picker-indicator {
   white-space: nowrap;
   padding-left: 100%;
   animation: marquee 45s linear infinite;
-  color: var(--yellow);
+  color: var(--text); /* Alert messages scroll in white, only highlighting warnings internally */
 }
 
 @keyframes marquee {
@@ -464,7 +429,7 @@ input::-webkit-calendar-picker-indicator {
   100% { transform: translate3d(-100%, 0, 0); }
 }
 
-/* Pause marquee on hover or mobile tap-and-hold! */
+/* Pause marquee on hover or mobile tap-and-hold */
 .ticker-wrap:hover .ticker, .ticker-wrap:active .ticker {
   animation-play-state: paused;
   cursor: pointer;
@@ -486,16 +451,17 @@ input::-webkit-calendar-picker-indicator {
   .terminal-header {
     flex-direction: column;
     align-items: flex-start;
-    gap: 4px;
+    gap: 6px;
+    margin-bottom: 15px;
   }
   .header-right {
     width: 100%;
     justify-content: space-between;
     border-top: 1px dashed var(--border-color);
-    padding-top: 4px;
+    padding-top: 6px;
     margin-top: 2px;
   }
   .app-title {
-    font-size: 1.05rem;
+    font-size: 1rem;
   }
 }

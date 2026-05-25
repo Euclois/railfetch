@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const hh = String(now.getHours()).padStart(2, '0');
     const mm = String(now.getMinutes()).padStart(2, '0');
     const ss = String(now.getSeconds()).padStart(2, '0');
-    clockElement.textContent = `[ ${hh}:${mm}:${ss} ]`;
+    clockElement.textContent = `${hh}:${mm}:${ss}`;
   };
   setInterval(updateClock, 1000);
   updateClock(); // Run immediately
@@ -213,7 +213,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const nameTo = toVal ? toVal.replace(/\s*\([A-Z]{3}\)$/, "") : "ANY DESTINATION";
     
     customRouteTitle.textContent = `${nameFrom.toUpperCase()} ➜ ${nameTo.toUpperCase()}`;
-    customCrsDetails.textContent = `[ ${fromCrs}${toCrs ? ' ➜ ' + toCrs : ''} ]`;
+    customCrsDetails.textContent = `${fromCrs}${toCrs ? ' ➜ ' + toCrs : ''}`;
 
     // Fetch and load
     await loadTrains(fromCrs, toCrs, 4, rowsCustomResults);
@@ -232,12 +232,12 @@ document.addEventListener('DOMContentLoaded', () => {
   toggleMcv.addEventListener('click', () => {
     mcvBoardExpanded = !mcvBoardExpanded;
     if (mcvBoardExpanded) {
-      toggleMcv.querySelector('.collapse-icon').textContent = '[-]';
+      toggleMcv.querySelector('.collapse-icon').textContent = '-';
       contentMcv.classList.remove('collapsed');
       rowsSldMcv.innerHTML = `<div class="loading-row">CONNECTING TO RTT DATABASE...</div>`;
       loadTrains('SLD', 'MCV', 4, rowsSldMcv);
     } else {
-      toggleMcv.querySelector('.collapse-icon').textContent = '[+]';
+      toggleMcv.querySelector('.collapse-icon').textContent = '+';
       contentMcv.classList.add('collapsed');
       rowsSldMcv.innerHTML = '';
     }
