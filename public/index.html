@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>CLI Trains // Live Terminal departures</title>
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Hyper-fast, zero-bloat, terminal-styled Progressive Web App for live UK train departures, platform tracking, and offline ticket vault.">
+  <meta name="theme-color" content="#000000">
+  
+  <!-- PWA & Mobile Web App Capable -->
+  <link rel="manifest" href="/manifest.json">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="CLI Trains">
+  <link rel="apple-touch-icon" href="/icon-192.png">
+  
+  <!-- Styling and Font CDN (Departure Mono) -->
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+  <!-- Retro Scanline Overlay -->
+  <div class="scanlines"></div>
+
+  <div class="terminal-container">
+    
+    <!-- HEADER BAR -->
+    <header class="terminal-header">
+      <div class="header-left">
+        <span class="prompt-symbol">&gt;_</span>
+        <h1 class="app-title">CLI_TRAINS.SH v1.0.4</h1>
+        <span class="live-tag blinking">[ LIVE ]</span>
+      </div>
+      <div class="header-right">
+        <span id="refresh-counter" class="refresh-countdown">REFRESH: 45s</span>
+        <span id="terminal-clock" class="clock-display">[ 00:00:00 ]</span>
+      </div>
+    </header>
+
+    <!-- MAIN BODY SECTION -->
+    <main class="terminal-content">
+      
+      <!-- GRID ROW 1: MANCHESTER Picadilly & SALFORD fixed routes -->
+      <section class="board-grid">
+        
+        <!-- Board 1: MAN ➜ SLD -->
+        <article class="board-card" id="board-man-sld">
+          <div class="card-header">
+            <span class="card-title">DEPARTURES: MAN ➜ SLD</span>
+            <span class="card-subtitle">MANCHESTER PICCADILLY ➜ SALFORD CRESCENT</span>
+          </div>
+          <div class="card-body">
+            <div class="table-header">
+              <span class="col-time">DEP</span>
+              <span class="col-dest">DESTINATION</span>
+              <span class="col-plat">PLAT</span>
+              <span class="col-status">STATUS</span>
+            </div>
+            <div class="board-rows" id="rows-man-sld">
+              <!-- Dynamically populated rows -->
+              <div class="loading-row">CONNECTING TO RTT DATABASE...</div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Board 2: SLD ➜ MAN -->
+        <article class="board-card" id="board-sld-man">
+          <div class="card-header">
+            <span class="card-title">DEPARTURES: SLD ➜ MAN</span>
+            <span class="card-subtitle">SALFORD CRESCENT ➜ MANCHESTER PICCADILLY</span>
+          </div>
+          <div class="card-body">
+            <div class="table-header">
+              <span class="col-time">DEP</span>
+              <span class="col-dest">DESTINATION</span>
+              <span class="col-plat">PLAT</span>
+              <span class="col-status">STATUS</span>
+            </div>
+            <div class="board-rows" id="rows-sld-man">
+              <!-- Dynamically populated rows -->
+              <div class="loading-row">CONNECTING TO RTT DATABASE...</div>
+            </div>
+          </div>
+        </article>
+
+      </section>
+
+      <!-- COLLAPSIBLE ROW: SLD ➜ MCV -->
+      <section class="collapsible-section" id="board-sld-mcv">
+        <div class="collapsible-header" id="toggle-mcv">
+          <span class="collapse-icon">[+]</span>
+          <span class="collapsible-title">EXPAND SERVICE BOARD: SLD ➜ MCV (SALFORD CRESCENT ➜ MANCHESTER VICTORIA)</span>
+        </div>
+        <div class="collapsible-content collapsed" id="content-mcv">
+          <div class="table-header">
+            <span class="col-time">DEP</span>
+            <span class="col-dest">DESTINATION</span>
+            <span class="col-plat">PLAT</span>
+            <span class="col-status">STATUS</span>
+          </div>
+          <div class="board-rows" id="rows-sld-mcv">
+            <div class="loading-row">CONNECTING TO RTT DATABASE...</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ROW 2: CUSTOM SEARCH & TICKET VAULT -->
+      <section class="action-grid">
+        
+        <!-- Custom Route Query Card -->
+        <article class="board-card action-card" id="search-card">
+          <div class="card-header">
+            <span class="card-title">ROUTE_QUERY_INTERFACE</span>
+            <span class="card-subtitle">INPUT DEPARTURE & DESTINATION STATIONS</span>
+          </div>
+          <div class="card-body">
+            <form id="search-form" class="terminal-form" onsubmit="return false;">
+              <div class="input-group">
+                <label for="station-from">ORIGIN_STN:</label>
+                <input type="text" id="station-from" list="stations-list" placeholder="SELECT DEPARTURE STATION..." autocomplete="off">
+              </div>
+              <div class="input-group">
+                <label for="station-to">DESTIN_STN:</label>
+                <input type="text" id="station-to" list="stations-list" placeholder="SELECT ARRIVAL STATION (OPTIONAL)..." autocomplete="off">
+              </div>
+              <div class="button-group">
+                <button type="submit" id="search-btn" class="cli-btn font-departure">EXECUTE_ROUTE_QUERY</button>
+                <button type="button" id="clear-search-btn" class="cli-btn danger-btn font-departure">CLEAR</button>
+              </div>
+            </form>
+            
+            <datalist id="stations-list">
+              <!-- Populated dynamically with stations.json -->
+            </datalist>
+
+            <!-- Custom Query Results Board -->
+            <div id="custom-results-container" class="custom-results-board hidden">
+              <div class="custom-results-header">
+                <span class="results-route" id="custom-route-title">FROM ➜ TO</span>
+                <span class="results-crs" id="custom-crs-details">[ MAN ➜ SLD ]</span>
+              </div>
+              <div class="table-header">
+                <span class="col-time">DEP</span>
+                <span class="col-dest">DESTINATION</span>
+                <span class="col-plat">PLAT</span>
+                <span class="col-status">STATUS</span>
+              </div>
+              <div class="board-rows" id="rows-custom-results">
+                <!-- Populated dynamically -->
+              </div>
+            </div>
+
+          </div>
+        </article>
+
+        <!-- Offline Ticket Vault Card -->
+        <article class="board-card action-card" id="ticket-vault-card">
+          <div class="card-header">
+            <span class="card-title">OFFLINE_TICKET_VAULT</span>
+            <span class="card-subtitle">SECURE LOCAL ENCRYPTED IMAGE STORAGE</span>
+          </div>
+          <div class="card-body vault-body">
+            
+            <!-- Vault Status Text -->
+            <div id="vault-status" class="vault-status-empty">
+              [!] WARNING: NO VALID TICKET STORED IN OFFLINE VAULT.<br>
+              DRAG & DROP OR CHOOSE IMAGE TO PERSIST TO LOCAL STORAGE FOR OFFLINE COMMUTES.
+            </div>
+
+            <!-- Upload Input (Hidden but bound to CLI-style button) -->
+            <div class="vault-controls">
+              <input type="file" id="ticket-file-input" accept="image/*" class="hidden-file-input">
+              <button id="upload-ticket-btn" class="cli-btn font-departure">LOAD_TICKET_FILE</button>
+              <button id="purge-ticket-btn" class="cli-btn danger-btn hidden font-departure">PURGE_TICKET</button>
+            </div>
+
+            <!-- Stored Ticket Preview Display -->
+            <div id="ticket-preview-container" class="ticket-preview hidden">
+              <div class="ticket-border">
+                <div class="ticket-scan-text">[SECURE OFFLINE VAULT DECRYPTED]</div>
+                <img id="ticket-image" src="" alt="Stored Commuter Ticket">
+              </div>
+            </div>
+
+          </div>
+        </article>
+
+      </section>
+
+    </main>
+
+    <!-- FOOTER LIVE ALERTS TICKER -->
+    <footer class="terminal-footer">
+      <div class="ticker-label">[ NETWORK_ALERTS ]</div>
+      <div class="ticker-wrap" id="alerts-ticker-wrap">
+        <div class="ticker" id="alerts-ticker-content">
+          LOADING REALTIME NATIONAL RAIL SYSTEM ALERTS FOR MANCHESTER METRO...
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <script src="/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,13 @@
+{
+  "name": "cli-trains",
+  "version": "1.0.4",
+  "description": "Hyper-fast, zero-bloat CLI-style departures board, platform info, delays, and offline ticket vault.",
+  "type": "module",
+  "scripts": {
+    "dev": "vercel dev",
+    "generate-stations": "python scripts/generate_stations.py"
+  },
+  "devDependencies": {
+    "vercel": "^39.3.0"
+  }
+}
