@@ -146,7 +146,8 @@ export default async function handler(req, res) {
 
 // High-fidelity Mock Data Generator
 function generateMockDepartures(from, to, limit) {
-  const now = new Date();
+  // Force base time to the Europe/London timezone to ensure mock trains match UK local time
+  const now = new Date(new Date().toLocaleString("en-US", { timeZone: "Europe/London" }));
   
   // Custom mock configuration depending on popular stations
   const getStationName = (crs) => {
