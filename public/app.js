@@ -34,13 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const toggleMcv = document.getElementById('toggle-mcv');
   const contentMcv = document.getElementById('content-mcv');
 
-  // Ticket Vault
-  const ticketFileInput = document.getElementById('ticket-file-input');
-  const uploadTicketBtn = document.getElementById('upload-ticket-btn');
-  const purgeTicketBtn = document.getElementById('purge-ticket-btn');
-  const vaultStatus = document.getElementById('vault-status');
-  const ticketPreviewContainer = document.getElementById('ticket-preview-container');
-  const ticketImage = document.getElementById('ticket-image');
+
 
   // Alerts
   const tickerContent = document.getElementById('alerts-ticker-content');
@@ -249,57 +243,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // ----------------------------------------
-  // 7. OFFLINE TICKET VAULT STORAGE (FileReader)
-  // ----------------------------------------
-  const loadStoredTicket = () => {
-    const dataUrl = localStorage.getItem('cli_stored_ticket');
-    if (dataUrl) {
-      ticketImage.src = dataUrl;
-      ticketPreviewContainer.classList.remove('hidden');
-      vaultStatus.classList.add('hidden');
-      purgeTicketBtn.classList.remove('hidden');
-    } else {
-      ticketImage.src = '';
-      ticketPreviewContainer.classList.add('hidden');
-      vaultStatus.classList.remove('hidden');
-      purgeTicketBtn.classList.add('hidden');
-    }
-  };
 
-  uploadTicketBtn.addEventListener('click', () => {
-    ticketFileInput.click();
-  });
-
-  ticketFileInput.addEventListener('change', (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    if (!file.type.startsWith('image/')) {
-      alert("SECURITY EXCEPTION: UPLOAD FILE MUST BE AN IMAGE (.PNG, .JPG, .WEBP)");
-      return;
-    }
-
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      const dataUrl = event.target.result;
-      try {
-        localStorage.setItem('cli_stored_ticket', dataUrl);
-        loadStoredTicket();
-      } catch (err) {
-        console.error("Storage error:", err);
-        alert("RESOURCE EXCEPTION: Image file is too large for LocalStorage sandbox. Please crop or choose a smaller screenshot (< 3MB).");
-      }
-    };
-    reader.readAsDataURL(file);
-  });
-
-  purgeTicketBtn.addEventListener('click', () => {
-    if (confirm("CONFIRM COMMAND: PURGE AND ENCRYPT OFFLINE TICKET CACHE?")) {
-      localStorage.removeItem('cli_stored_ticket');
-      loadStoredTicket();
-    }
-  });
 
   // ----------------------------------------
   // 8. MASTER INITIALIZATION ON PAGE LOAD
@@ -307,8 +251,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const init = async () => {
     await Promise.all([
       triggerFullRefresh(),
-      populateStations(),
-      loadStoredTicket()
+      populateStations()
     ]);
     
     // Register PWA service worker if supported

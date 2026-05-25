@@ -13,30 +13,51 @@ export default async function handler(req, res) {
 
   const username = process.env.RTT_USERNAME;
   const password = process.env.RTT_PASSWORD;
+  const token = process.env.RTT_TOKEN;
 
   // Use Edge Caching for response
   res.setHeader('Cache-Control', 's-maxage=30, stale-while-revalidate');
 
+  // Detect whether we are using Basic Auth or Bearer Token (Next-Gen API)
+  const hasLegacyAuth = username && password && username.toLowerCase() !== 'token';
+  const hasBearerAuth = token || (password && (!username || username.toLowerCase() === 'token'));
+
   // If credentials are not set, fallback to high-fidelity Mock Data for local testing
-  if (!username || !password) {
+  if (!hasLegacyAuth && !hasBearerAuth) {
     console.log("RTT credentials missing. Serving simulated mock data.");
     const mockData = generateMockDepartures(fromCrs, toCrs, maxLimit);
     return res.status(200).json(mockData);
   }
 
   try {
-    const auth = Buffer.from(`${username}:${password}`).toString('base64');
-    let url = `https://api.rtt.io/api/v1/json/search/${fromCrs}`;
-    if (toCrs) {
-      url += `/to/${toCrs}`;
+    let url;
+    const headers = {
+      'User-Agent': 'CLI-Trains-PWA/1.0'
+    };
+
+    if (hasBearerAuth) {
+      const activeToken = token || password;
+      // Next Generation API uses Bearer auth and data.rtt.io base server
+      url = `https://data.rtt.io/api/v1/json/search/${fromCrs}`;
+      if (toCrs) {
+        url += `/to/${toCrs}`;
+      }
+      headers['Authorization'] = `Bearer ${activeToken.trim()}`;
+      console.log(`Routing Next-Gen RTT API request to data.rtt.io using Bearer Token.`);
+    } else {
+      // Legacy API uses Basic auth and api.rtt.io
+      const auth = Buffer.from(`${username}:${password}`).toString('base64');
+      url = `https://api.rtt.io/api/v1/json/search/${fromCrs}`;
+      if (toCrs) {
+        url += `/to/${toCrs}`;
+      }
+      headers['Authorization'] = `Basic ${auth}`;
+      console.log(`Routing Legacy RTT API request to api.rtt.io using Basic Auth.`);
     }
 
     const response = await fetch(url, {
       method: 'GET',
-      headers: {
-        'Authorization': `Basic ${auth}`,
-        'User-Agent': 'CLI-Trains-PWA/1.0'
-      }
+      headers
     });
 
     if (!response.ok) {

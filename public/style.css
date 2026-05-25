@@ -412,63 +412,7 @@ input::-webkit-calendar-picker-indicator {
   display: none !important;
 }
 
-/* TICKET VAULT */
-.vault-body {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
 
-#vault-status {
-  font-size: 0.8rem;
-  color: var(--yellow);
-  line-height: 1.4;
-  border: 1px dotted var(--yellow);
-  padding: 8px;
-  background-color: var(--yellow-dim);
-}
-
-.vault-controls {
-  display: flex;
-  gap: 10px;
-}
-
-.hidden-file-input {
-  display: none;
-}
-
-.ticket-preview {
-  margin-top: 5px;
-}
-
-.ticket-border {
-  border: 2px dashed var(--green);
-  background-color: #030303;
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-}
-
-.ticket-scan-text {
-  font-size: 0.75rem;
-  color: var(--yellow);
-  text-transform: uppercase;
-  border-bottom: 1px dotted var(--yellow);
-  width: 100%;
-  text-align: center;
-  padding-bottom: 4px;
-}
-
-.ticket-border img {
-  max-width: 100%;
-  max-height: 220px;
-  object-fit: contain;
-  border: 1px solid var(--border-color);
-  background-color: #111;
-  filter: grayscale(100%) contrast(150%); /* Retro screen grayscaling! */
-}
 
 /* FOOTER LIVE ALERTS TICKER */
 .terminal-footer {

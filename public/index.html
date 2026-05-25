@@ -155,37 +155,7 @@
           </div>
         </article>
 
-        <!-- Offline Ticket Vault Card -->
-        <article class="board-card action-card" id="ticket-vault-card">
-          <div class="card-header">
-            <span class="card-title">OFFLINE_TICKET_VAULT</span>
-            <span class="card-subtitle">SECURE LOCAL ENCRYPTED IMAGE STORAGE</span>
-          </div>
-          <div class="card-body vault-body">
-            
-            <!-- Vault Status Text -->
-            <div id="vault-status" class="vault-status-empty">
-              [!] WARNING: NO VALID TICKET STORED IN OFFLINE VAULT.<br>
-              DRAG & DROP OR CHOOSE IMAGE TO PERSIST TO LOCAL STORAGE FOR OFFLINE COMMUTES.
-            </div>
 
-            <!-- Upload Input (Hidden but bound to CLI-style button) -->
-            <div class="vault-controls">
-              <input type="file" id="ticket-file-input" accept="image/*" class="hidden-file-input">
-              <button id="upload-ticket-btn" class="cli-btn font-departure">LOAD_TICKET_FILE</button>
-              <button id="purge-ticket-btn" class="cli-btn danger-btn hidden font-departure">PURGE_TICKET</button>
-            </div>
-
-            <!-- Stored Ticket Preview Display -->
-            <div id="ticket-preview-container" class="ticket-preview hidden">
-              <div class="ticket-border">
-                <div class="ticket-scan-text">[SECURE OFFLINE VAULT DECRYPTED]</div>
-                <img id="ticket-image" src="" alt="Stored Commuter Ticket">
-              </div>
-            </div>
-
-          </div>
-        </article>
 
       </section>
 
