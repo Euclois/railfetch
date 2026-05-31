@@ -205,6 +205,21 @@ body {
   opacity: 0.65;
 }
 
+.row-departed {
+  opacity: 0.4;
+}
+
+.departed-separator {
+  height: 1px;
+  background-color: var(--border-color);
+  margin: 8px 0;
+}
+
+.operator-tag {
+  color: var(--text-dim);
+  font-size: 0.72rem;
+}
+
 .loading-row {
   text-align: center;
   padding: 20px 0;
