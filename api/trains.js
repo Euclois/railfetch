@@ -42,8 +42,14 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: "Missing 'from' parameter." });
   }
 
-  const fromCrs = from.toUpperCase();
-  const toCrs = to ? to.toUpperCase() : null;
+  const formatCrs = (crs) => {
+    if (!crs) return null;
+    const clean = crs.trim().toUpperCase();
+    return clean.includes(':') ? clean : `gb-nr:${clean}`;
+  };
+
+  const fromCrs = formatCrs(from);
+  const toCrs = formatCrs(to);
   const maxUpcoming = parseInt(limit, 10) || 4;
   const rttToken = process.env.RTT_TOKEN;
 
